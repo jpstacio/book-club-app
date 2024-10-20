@@ -1,19 +1,12 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const User = require('./user');
+const BookClub = require('./BookClub');
 
-const User = sequelize.define('User', {
-  username: { type: DataTypes.STRING, unique: true, allowNull: false },
-  password: { type: DataTypes.STRING, allowNull: false },
-});
+// Define Many-to-Many relationship between Users and BookClubs
+User.belongsToMany(BookClub, { through: 'UserBookClubs' });
+BookClub.belongsToMany(User, { through: 'UserBookClubs' });
 
-const Club = sequelize.define('Club', {
-  name: { type: DataTypes.STRING, allowNull: false },
-  description: { type: DataTypes.TEXT },
-});
+// One-to-Many relationship between Users and the BookClubs they own
+User.hasMany(BookClub, { foreignKey: 'ownerId', as: 'ownedClubs' });
+BookClub.belongsTo(User, { foreignKey: 'ownerId', as: 'owner' });
 
-User.hasMany(Club);
-Club.belongsTo(User);
-
-sequelize.sync({ force: false });
-
-module.exports = { User, Club };
+module.exports = { User, BookClub };

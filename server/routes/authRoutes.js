@@ -1,5 +1,6 @@
 const express = require('express');
 const { authenticateToken } = require('../middleware/authMiddleware'); // Ensure this is imported correctly
+const { register, login } = require('../controllers/authController');
 const { User } = require('../models'); // Import your User model
 
 const router = express.Router();
@@ -22,4 +23,11 @@ router.get('/profile', authenticateToken, async (req, res) => {
   console.log('Decoded userId from token:', req.user.userId);
 });
 
+// Route for registering a user
+router.post('/register', register);
+
+// Route for logging in a user
+router.post('/login', login);
+
 module.exports = router;
+
