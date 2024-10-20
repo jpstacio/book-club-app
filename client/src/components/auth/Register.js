@@ -1,21 +1,30 @@
 import React, { useState } from 'react';
 import axiosInstance from '../../api/axiosInstance';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await axiosInstance.post('/auth/register', {
+      const response = await axiosInstance.post('/auth/register', {
         username,
         password,
       });
-      setSuccess('Registration successful. Please log in.');
+
+      // Assuming your backend returns a token after registration like login
+      localStorage.setItem('token', response.data.token);
+
+      setSuccess('Registration successful. Redirecting to profile...');
       setError('');
+
+      // Redirect the user to the profile page
+      navigate('/profile');
     } catch (err) {
       console.error('Registration failed:', err.response ? err.response.data : err.message);
       setError('Error registering user. Please try again.');
