@@ -1,6 +1,5 @@
-// models/BookClub.js
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database'); // Your sequelize configuration
+const sequelize = require('../config/database');
 
 const BookClub = sequelize.define('BookClub', {
   name: {
@@ -10,10 +9,6 @@ const BookClub = sequelize.define('BookClub', {
   description: {
     type: DataTypes.TEXT,
     allowNull: true,
-  },
-  ownerId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
   },
 });
 

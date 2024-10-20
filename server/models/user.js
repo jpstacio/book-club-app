@@ -12,11 +12,11 @@ const User = sequelize.define('User', {
     allowNull: false,
   },
   favoriteBooks: {
-    type: DataTypes.TEXT, // Stores a comma-separated list or JSON string of favorite books
+    type: DataTypes.TEXT,
     allowNull: true,
   },
   biography: {
-    type: DataTypes.TEXT, // Stores the user's bio
+    type: DataTypes.TEXT,
     allowNull: true,
   },
 });

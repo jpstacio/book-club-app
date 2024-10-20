@@ -1,12 +1,23 @@
-const User = require('./user');
+const User = require('./User');
 const BookClub = require('./BookClub');
+const UserBookClub = require('./UserBookClub');
 
-// Define Many-to-Many relationship between Users and BookClubs
-User.belongsToMany(BookClub, { through: 'UserBookClubs' });
-BookClub.belongsToMany(User, { through: 'UserBookClubs' });
+// Define associations
+User.belongsToMany(BookClub, {
+  through: UserBookClub,
+  as: 'joinedBookClubs',
+  foreignKey: 'userId',
+});
 
-// One-to-Many relationship between Users and the BookClubs they own
-User.hasMany(BookClub, { foreignKey: 'ownerId', as: 'ownedClubs' });
-BookClub.belongsTo(User, { foreignKey: 'ownerId', as: 'owner' });
+BookClub.belongsToMany(User, {
+  through: UserBookClub,
+  as: 'members',
+  foreignKey: 'bookClubId',
+});
 
-module.exports = { User, BookClub };
+// Export all models
+module.exports = {
+  User,
+  BookClub,
+  UserBookClub,
+};

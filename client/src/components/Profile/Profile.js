@@ -7,6 +7,8 @@ const Profile = () => {
   const [userData, setUserData] = useState(null);
   const [favoriteBooks, setFavoriteBooks] = useState('');
   const [biography, setBiography] = useState('');
+  const [friends, setFriends] = useState([]);
+  const [bookClubs, setBookClubs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -16,6 +18,8 @@ const Profile = () => {
       setUserData(response.data.user);
       setFavoriteBooks(response.data.user.favoriteBooks);
       setBiography(response.data.user.biography);
+      setFriends(response.data.user.friends);
+      setBookClubs(response.data.user.bookClubs);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching user data:', error);
@@ -73,6 +77,25 @@ const Profile = () => {
         </div>
         <button type="submit">Save</button>
       </form>
+
+      <h3>Friends</h3>
+      <ul>
+        {friends.length > 0 ? (
+          friends.map((friend) => <li key={friend.id}>{friend.username}</li>)
+        ) : (
+          <p>No friends added yet.</p>
+        )}
+      </ul>
+
+      <h3>Book Clubs Joined</h3>
+      <ul>
+        {bookClubs.length > 0 ? (
+          bookClubs.map((club) => <li key={club.id}>{club.name}</li>)
+        ) : (
+          <p>No book clubs joined yet.</p>
+        )}
+      </ul>
+
       <CreateBookClubForm />
       <BookClubList />
       <button onClick={handleLogout}>Logout</button>
