@@ -17,7 +17,7 @@ const Register = () => {
         password,
       });
 
-      // Assuming your backend returns a token after registration like login
+      // Save the token to localStorage
       localStorage.setItem('token', response.data.token);
 
       setSuccess('Registration successful. Redirecting to profile...');
@@ -37,6 +37,8 @@ const Register = () => {
       <form onSubmit={handleRegister}>
         <input
           type="text"
+          id="username"
+          name="username"
           placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
@@ -45,6 +47,8 @@ const Register = () => {
         <br />
         <input
           type="password"
+          id="password"
+          name="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}

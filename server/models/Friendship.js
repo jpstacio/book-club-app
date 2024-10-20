@@ -1,13 +1,12 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
-const User = require('./User');
 
 const Friendship = sequelize.define('Friendship', {
   userId: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: User,
+      model: 'User',
       key: 'id',
     },
   },
@@ -15,10 +14,11 @@ const Friendship = sequelize.define('Friendship', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: User,
+      model: 'User',
       key: 'id',
     },
   },
 });
 
+// Export the model
 module.exports = Friendship;
