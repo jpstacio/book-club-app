@@ -1,26 +1,49 @@
 const express = require('express');
-const { authenticateToken } = require('../middleware/authMiddleware'); // Ensure this is imported correctly
+const { authenticateToken } = require('../middleware/authMiddleware');
 const { register, login } = require('../controllers/authController');
-const { User } = require('../models'); // Import your User model
+const { User } = require('../models');
 
 const router = express.Router();
 
 // Protected route for fetching profile data
 router.get('/profile', authenticateToken, async (req, res) => {
   try {
-    // Fetch the user using the decoded userId from the token
     const user = await User.findByPk(req.user.userId);
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    // Respond with user data
-    res.json({ user: { username: user.username } });
+    res.json({
+      user: {
+        username: user.username,
+        favoriteBooks: user.favoriteBooks || '',
+        biography: user.biography || '',
+      },
+    });
   } catch (err) {
     console.error('Error fetching profile data:', err);
     res.status(500).json({ error: 'Error fetching profile data' });
   }
-  console.log('Decoded userId from token:', req.user.userId);
+});
+
+// Protected route for updating profile data
+router.put('/profile', authenticateToken, async (req, res) => {
+  try {
+    const { favoriteBooks, biography } = req.body;
+    const user = await User.findByPk(req.user.userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    user.favoriteBooks = favoriteBooks;
+    user.biography = biography;
+    await user.save();
+
+    res.json({ message: 'Profile updated successfully' });
+  } catch (err) {
+    console.error('Error updating profile:', err);
+    res.status(500).json({ error: 'Error updating profile' });
+  }
 });
 
 // Route for registering a user
@@ -30,4 +53,3 @@ router.post('/register', register);
 router.post('/login', login);
 
 module.exports = router;
-

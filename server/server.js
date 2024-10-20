@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-const bodyParser = require('body-parser');
 const authRoutes = require('./routes/authRoutes'); // Make sure this path is correct
 const bookClubRoutes = require('./routes/bookClubRoutes');
 const sequelize = require('./config/database');  
@@ -10,19 +9,19 @@ require('dotenv').config();
 const app = express();
 
 app.use(cors());
-app.use(express.json()); // Ensure JSON body parsing is enabled
+app.use(express.json()); // Ensures JSON body parsing is enabled
 
-// Make sure the base path is correctly set to match your requests
+// Register the routes
 app.use('/api/auth', authRoutes);
 app.use('/api/book-clubs', bookClubRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
 
-
-sequelize.sync({ force: false }) // Use `force: true` only if you want to drop and recreate tables
+// Sync the database
+sequelize.sync({ alter: true }) // Use `alter: true` to update the table structure without dropping data
   .then(() => {
-    console.log('Database & tables created!');
+    console.log('Database & tables updated!');
   })
   .catch((err) => {
     console.error('Error syncing database:', err);

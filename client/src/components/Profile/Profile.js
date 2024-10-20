@@ -5,6 +5,8 @@ import BookClubList from '../BookClubList';
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
+  const [favoriteBooks, setFavoriteBooks] = useState('');
+  const [biography, setBiography] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -12,6 +14,8 @@ const Profile = () => {
     try {
       const response = await axiosInstance.get('/auth/profile');
       setUserData(response.data.user);
+      setFavoriteBooks(response.data.user.favoriteBooks);
+      setBiography(response.data.user.biography);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching user data:', error);
@@ -23,6 +27,20 @@ const Profile = () => {
   useEffect(() => {
     fetchUserData();
   }, []);
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    try {
+      await axiosInstance.put('/auth/profile', {
+        favoriteBooks,
+        biography,
+      });
+      alert('Profile updated successfully!');
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      setError('Error updating profile. Please try again later.');
+    }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -36,6 +54,25 @@ const Profile = () => {
     <div>
       <h2>Profile</h2>
       <p>Username: {userData.username}</p>
+      <form onSubmit={handleSave}>
+        <div>
+          <label>Favorite Books:</label>
+          <textarea
+            value={favoriteBooks}
+            onChange={(e) => setFavoriteBooks(e.target.value)}
+            placeholder="Enter your favorite books (comma separated)"
+          />
+        </div>
+        <div>
+          <label>Biography:</label>
+          <textarea
+            value={biography}
+            onChange={(e) => setBiography(e.target.value)}
+            placeholder="Tell us about yourself"
+          />
+        </div>
+        <button type="submit">Save</button>
+      </form>
       <CreateBookClubForm />
       <BookClubList />
       <button onClick={handleLogout}>Logout</button>
