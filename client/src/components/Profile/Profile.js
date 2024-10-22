@@ -4,7 +4,7 @@ import CreateBookClubForm from '../CreateBookClubForm';
 import BookClubList from '../BookClubList';
 
 const Profile = () => {
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState({});
   const [favoriteBooks, setFavoriteBooks] = useState('');
   const [biography, setBiography] = useState('');
   const [friends, setFriends] = useState([]);
@@ -15,11 +15,12 @@ const Profile = () => {
   const fetchUserData = async () => {
     try {
       const response = await axiosInstance.get('/auth/profile');
-      setUserData(response.data.user);
-      setFavoriteBooks(response.data.user.favoriteBooks);
-      setBiography(response.data.user.biography);
-      setFriends(response.data.user.friends);
-      setBookClubs(response.data.user.bookClubs);
+      const user = response.data.user || {}; // Ensure user data exists
+      setUserData(user);
+      setFavoriteBooks(user.favoriteBooks || '');
+      setBiography(user.biography || '');
+      setFriends(user.friends || []); // Set an empty array if friends are not present
+      setBookClubs(user.bookClubs || []); // Set an empty array if book clubs are not present
       setLoading(false);
     } catch (error) {
       console.error('Error fetching user data:', error);
@@ -80,7 +81,7 @@ const Profile = () => {
 
       <h3>Friends</h3>
       <ul>
-        {friends.length > 0 ? (
+        {Array.isArray(friends) && friends.length > 0 ? (
           friends.map((friend) => <li key={friend.id}>{friend.username}</li>)
         ) : (
           <p>No friends added yet.</p>
@@ -89,7 +90,7 @@ const Profile = () => {
 
       <h3>Book Clubs Joined</h3>
       <ul>
-        {bookClubs.length > 0 ? (
+        {Array.isArray(bookClubs) && bookClubs.length > 0 ? (
           bookClubs.map((club) => <li key={club.id}>{club.name}</li>)
         ) : (
           <p>No book clubs joined yet.</p>

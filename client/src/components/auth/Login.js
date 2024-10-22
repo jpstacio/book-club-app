@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import axiosInstance from '../../api/axiosInstance';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const navigate = useNavigate(); // Hook for navigation
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -18,8 +20,9 @@ const Login = () => {
       // Save the JWT token to localStorage
       localStorage.setItem('token', response.data.token);
       alert('Login successful');
-      // Redirect the user or update the state accordingly
-      // Example: window.location.href = "/profile";
+
+      // Redirect the user to the profile page
+      navigate('/profile');
     } catch (err) {
       console.error('Login failed:', err.response ? err.response.data : err.message);
       setError('Invalid credentials. Please try again.');
