@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../api/axiosInstance';
-import CreateBookClubForm from '../CreateBookClubForm';
-import BookClubList from '../BookClubList';
 
 const Profile = () => {
   const [userData, setUserData] = useState({});
@@ -96,9 +94,6 @@ const Profile = () => {
           <p>No book clubs joined yet.</p>
         )}
       </ul>
-
-      <CreateBookClubForm />
-      <BookClubList />
       <button onClick={handleLogout}>Logout</button>
     </div>
   );
