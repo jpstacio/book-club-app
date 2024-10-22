@@ -32,7 +32,11 @@ const BookClubList = () => {
       <ul>
         {bookClubs.map((club) => (
           <li key={club.id}>
-            {club.name}
+            <h4>{club.name}</h4>
+            <p>{club.description}</p>
+            <p><strong>Current Book:</strong> {club.currentBook}</p>
+            <p><strong>Chapters to Read:</strong> {club.currentChapters}</p>
+            <p><strong>Book Description:</strong> {club.bookDescription}</p>
             <button onClick={() => handleJoinClub(club.id)}>Join</button>
           </li>
         ))}

@@ -10,11 +10,23 @@ const BookClub = sequelize.define('BookClub', {
     type: DataTypes.TEXT,
     allowNull: true,
   },
-  ownerId: { // This field should correspond to the User who owns the club
+  currentBook: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  currentChapters: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  bookDescription: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  ownerId: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'User', // Ensure the model name is correct
+      model: 'Users',
       key: 'id',
     },
   },

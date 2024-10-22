@@ -16,12 +16,13 @@ BookClub.belongsToMany(User, {
   foreignKey: 'bookClubId',
 });
 
-// Correctly define ownedBookClubs association here as well
+// Define ownedBookClubs association
 User.hasMany(BookClub, {
   as: 'ownedBookClubs',
   foreignKey: 'ownerId',
 });
 
+// Define friendships associations
 User.belongsToMany(User, {
   through: Friendship,
   as: 'friends',

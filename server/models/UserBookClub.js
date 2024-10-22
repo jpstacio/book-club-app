@@ -20,5 +20,4 @@ const UserBookClub = sequelize.define('UserBookClub', {
   },
 });
 
-// Export the model
 module.exports = UserBookClub;

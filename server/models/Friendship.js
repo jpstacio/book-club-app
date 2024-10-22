@@ -20,5 +20,5 @@ const Friendship = sequelize.define('Friendship', {
   },
 });
 
-// Export the model
 module.exports = Friendship;
+
