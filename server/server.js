@@ -27,7 +27,7 @@ const syncDatabase = async () => {
       console.error('Error syncing database:', err);
     }
   };
-  
 
 // Call the syncDatabase function to start the server
 syncDatabase();
+

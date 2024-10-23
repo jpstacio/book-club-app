@@ -10,7 +10,7 @@ router.post('/register', register);
 // Route to log in an existing user
 router.post('/login', login);
 
-// Protected route to get the user profile// Protected route to get the user profile
+// Protected route to get the user profile
 router.get('/profile', authenticateToken, async (req, res) => {
     try {
         console.log('Fetching profile for userId:', req.user.userId);

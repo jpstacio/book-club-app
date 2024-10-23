@@ -4,7 +4,7 @@ const { BookClub, User, UserBookClub } = require('../models');
 const { Op } = require('sequelize');
 
 
-const router = express.Router(); // Define the router here
+const router = express.Router(); 
 
 // Route to create a new book club
 router.post('/', authenticateToken, async (req, res) => {
@@ -55,7 +55,7 @@ router.post('/:id/join', authenticateToken, async (req, res) => {
         }
 
         // Add the user to the book club using the correct method
-        await user.addJoinedBookClub(bookClub); // Ensure this matches the alias in the association
+        await user.addJoinedBookClub(bookClub); 
 
         res.status(200).json({ message: 'Successfully joined the book club' });
     } catch (err) {
@@ -63,7 +63,6 @@ router.post('/:id/join', authenticateToken, async (req, res) => {
         res.status(500).json({ error: 'Error joining book club' });
     }
 });
-
 
 // Route to get all book clubs for the logged-in user
 router.get('/', authenticateToken, async (req, res) => {
@@ -84,7 +83,7 @@ router.get('/', authenticateToken, async (req, res) => {
                 {
                     model: User,
                     as: 'members',
-                    attributes: [] // We don’t need user details here
+                    attributes: [] 
                 }
             ],
             attributes: ['id', 'name', 'description', 'currentBook', 'currentChapters', 'bookDescription', 'ownerId'],
@@ -125,9 +124,6 @@ router.get('/available', authenticateToken, async (req, res) => {
         res.status(500).json({ error: 'Error fetching available book clubs' });
     }
 });
-
-
-
 
 // Route to get details of a specific book club
 router.get('/:id', authenticateToken, async (req, res) => {

@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
+// Define the BookClub model
 const BookClub = sequelize.define('BookClub', {
   name: {
     type: DataTypes.STRING,
