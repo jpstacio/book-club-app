@@ -3,6 +3,7 @@ const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const bookClubRoutes = require('./routes/bookClubRoutes');
 const sequelize = require('./config/database');
+const friendshipRoutes = require('./routes/friendshipRoutes');
 require('dotenv').config();
 
 const app = express();
@@ -12,6 +13,7 @@ app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/book-clubs', bookClubRoutes);
+app.use('/api/friends', friendshipRoutes);
 
 const PORT = process.env.PORT || 5000;
 

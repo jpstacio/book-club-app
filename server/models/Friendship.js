@@ -6,17 +6,19 @@ const Friendship = sequelize.define('Friendship', {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'User',
+      model: 'Users',
       key: 'id',
     },
+    primaryKey: true,
   },
   friendId: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
-      model: 'User',
+      model: 'Users',
       key: 'id',
     },
+    primaryKey: true,
   },
 });
 

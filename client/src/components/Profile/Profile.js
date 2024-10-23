@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../api/axiosInstance';
+import AddFriendForm from '../AddFriendForm'; // Ensure this path is correct
 
 const Profile = () => {
   const [userData, setUserData] = useState({});
@@ -17,8 +18,8 @@ const Profile = () => {
       setUserData(user);
       setFavoriteBooks(user.favoriteBooks || '');
       setBiography(user.biography || '');
-      setFriends(user.friends || []); // Set an empty array if friends are not present
-      setBookClubs(user.joinedBookClubs || []); // Change to joinedBookClubs
+      setFriends(user.friends || []); // Ensure this correctly maps to your backend
+      setBookClubs(user.joinedBookClubs || []); // Corrected to use 'joinedBookClubs'
       setLoading(false);
     } catch (error) {
       console.error('Error fetching user data:', error);
@@ -77,6 +78,7 @@ const Profile = () => {
         <button type="submit">Save</button>
       </form>
 
+      <AddFriendForm />
       <h3>Friends</h3>
       <ul>
         {Array.isArray(friends) && friends.length > 0 ? (

@@ -1,4 +1,5 @@
 const User = require('./User');
+const Friendship = require('./Friendship');
 const BookClub = require('./BookClub');
 const UserBookClub = require('./UserBookClub');
 
@@ -33,4 +34,5 @@ module.exports = {
   User,
   BookClub,
   UserBookClub,
+  Friendship,
 };
