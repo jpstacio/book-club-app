@@ -3,7 +3,7 @@ require('dotenv').config();
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: '/Users/jayanaestacio/Documents/book-club-app/server/database.sqlite',
+  storage: '/home/patrick/Documents/book-club-app/server',
   logging: false, // Set to true if you want to see SQL queries in the console
 });
 
