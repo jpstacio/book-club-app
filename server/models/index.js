@@ -1,7 +1,6 @@
 const User = require('./User');
 const BookClub = require('./BookClub');
 const UserBookClub = require('./UserBookClub');
-const Friendship = require('./Friendship');
 
 // Define associations
 User.belongsToMany(BookClub, {
@@ -22,18 +21,16 @@ User.hasMany(BookClub, {
   foreignKey: 'ownerId',
 });
 
-// Define friendships associations
+// Define friendships associations if applicable
 User.belongsToMany(User, {
-  through: Friendship,
+  through: 'Friendships',
   as: 'friends',
   foreignKey: 'userId',
   otherKey: 'friendId',
 });
 
-// Export all models
 module.exports = {
   User,
   BookClub,
   UserBookClub,
-  Friendship,
 };

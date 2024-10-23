@@ -3,7 +3,6 @@ const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const bookClubRoutes = require('./routes/bookClubRoutes');
 const sequelize = require('./config/database');
-const { User, Friendship, BookClub, UserBookClub } = require('./models'); // Import models via index.js
 require('dotenv').config();
 
 const app = express();

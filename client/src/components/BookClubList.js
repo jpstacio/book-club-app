@@ -3,7 +3,7 @@ import axiosInstance from '../api/axiosInstance';
 
 const BookClubList = () => {
   const [bookClubs, setBookClubs] = useState([]);
-
+  
   useEffect(() => {
     const fetchBookClubs = async () => {
       try {
@@ -21,8 +21,12 @@ const BookClubList = () => {
     try {
       await axiosInstance.post(`/book-clubs/${clubId}/join`);
       alert('Successfully joined the book club!');
+      // Optionally, refresh the list of book clubs or update the UI state
+      // You can fetch the book clubs again to update the view
+      // fetchBookClubs();
     } catch (err) {
       console.error('Error joining book club:', err);
+      alert('Error joining the book club. Please try again.');
     }
   };
 

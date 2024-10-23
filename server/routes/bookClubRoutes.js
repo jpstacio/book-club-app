@@ -1,6 +1,8 @@
 const express = require('express');
 const { authenticateToken } = require('../middleware/authMiddleware');
 const { BookClub, User, UserBookClub } = require('../models');
+const { Op } = require('sequelize');
+
 
 const router = express.Router(); // Define the router here
 
@@ -62,18 +64,70 @@ router.post('/:id/join', authenticateToken, async (req, res) => {
     }
 });
 
-// Route to get all book clubs
+
+// Route to get all book clubs for the logged-in user
 router.get('/', authenticateToken, async (req, res) => {
     try {
+        const userId = req.user.userId;
+
+        // Fetch clubs where the user is either the owner or a member
         const bookClubs = await BookClub.findAll({
+            where: {
+                [Op.or]: [
+                    { ownerId: userId }, // User owns the club
+                    {
+                        '$members.id$': userId // User is a member of the club
+                    }
+                ]
+            },
+            include: [
+                {
+                    model: User,
+                    as: 'members',
+                    attributes: [] // We don’t need user details here
+                }
+            ],
             attributes: ['id', 'name', 'description', 'currentBook', 'currentChapters', 'bookDescription', 'ownerId'],
         });
+
         res.status(200).json(bookClubs);
     } catch (err) {
         console.error('Error fetching book clubs:', err);
         res.status(500).json({ error: 'Error fetching book clubs' });
     }
 });
+
+// Route to get all book clubs the user has NOT joined
+router.get('/available', authenticateToken, async (req, res) => {
+    try {
+        const userId = req.user.userId;
+
+        // Find IDs of all book clubs the user has joined
+        const joinedClubs = await UserBookClub.findAll({
+            where: { userId },
+            attributes: ['bookClubId'],
+        });
+
+        const joinedClubIds = joinedClubs.map((club) => club.bookClubId);
+
+        // Find all clubs that the user is not a member of
+        const availableClubs = await BookClub.findAll({
+            where: {
+                id: { [Op.notIn]: joinedClubIds },
+                ownerId: { [Op.ne]: userId }, // Exclude clubs owned by the user
+            },
+            attributes: ['id', 'name', 'description', 'currentBook', 'currentChapters', 'bookDescription', 'ownerId'],
+        });
+
+        res.status(200).json(availableClubs);
+    } catch (err) {
+        console.error('Error fetching available book clubs:', err);
+        res.status(500).json({ error: 'Error fetching available book clubs' });
+    }
+});
+
+
+
 
 // Route to get details of a specific book club
 router.get('/:id', authenticateToken, async (req, res) => {

@@ -18,7 +18,7 @@ const Profile = () => {
       setFavoriteBooks(user.favoriteBooks || '');
       setBiography(user.biography || '');
       setFriends(user.friends || []); // Set an empty array if friends are not present
-      setBookClubs(user.bookClubs || []); // Set an empty array if book clubs are not present
+      setBookClubs(user.joinedBookClubs || []); // Change to joinedBookClubs
       setLoading(false);
     } catch (error) {
       console.error('Error fetching user data:', error);
