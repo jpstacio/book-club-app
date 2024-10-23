@@ -19,7 +19,7 @@ const Profile = () => {
       setFavoriteBooks(user.favoriteBooks || '');
       setBiography(user.biography || '');
       setFriends(user.friends || []); // Ensure this correctly maps to your backend
-      setBookClubs(user.joinedBookClubs || []); // Corrected to use 'joinedBookClubs'
+      setBookClubs(user.joinedBookClubs || []);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching user data:', error);

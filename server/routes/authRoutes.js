@@ -46,6 +46,28 @@ router.get('/profile', authenticateToken, async (req, res) => {
     }
 });
 
-  
+// In your authRoutes.js
+router.put('/profile', authenticateToken, async (req, res) => {
+    const { favoriteBooks, biography } = req.body; // Get updated data from request
+    const userId = req.user.userId; // Get userId from token
+
+    try {
+        const user = await User.findByPk(userId); // Find user by ID
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        // Update user fields
+        user.favoriteBooks = favoriteBooks;
+        user.biography = biography;
+
+        await user.save(); // Save changes to the database
+
+        res.status(200).json({ message: 'Profile updated successfully' });
+    } catch (error) {
+        console.error('Error updating profile:', error);
+        res.status(500).json({ error: 'Error updating profile' });
+    }
+});
   
 module.exports = router;
