@@ -15,7 +15,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/book-clubs', bookClubRoutes);
 app.use('/api/friends', friendshipRoutes);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 // Function to sync the database with error handling
 const syncDatabase = async () => {
