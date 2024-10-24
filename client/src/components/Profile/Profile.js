@@ -58,31 +58,29 @@ const Profile = () => {
   return (
     <div className="profile-container">
       <h2>Profile</h2>
-      <div className="user-info">
-        <p><strong>Username:</strong> {userData.username}</p>
-        <form onSubmit={handleSave} className="profile-form">
-          <div>
-            <label>Biography:</label>
-            <textarea
-              value={biography}
-              onChange={(e) => setBiography(e.target.value)}
-              placeholder="Tell us about yourself"
-            />
-          </div>
-          <div>
-            <label>Favorite Books:</label>
-            <textarea
-              value={favoriteBooks}
-              onChange={(e) => setFavoriteBooks(e.target.value)}
-              placeholder="Enter your favorite books (comma separated)"
-            />
-          </div>
-          <button type="submit">Save</button>
-        </form>
-      </div>
-
+      <p>Username: {userData.username}</p>
+      <form onSubmit={handleSave}>
+        <div>
+          <label>Biography:</label>
+          <textarea
+            value={biography}
+            onChange={(e) => setBiography(e.target.value)}
+            placeholder="Tell us about yourself"
+          />
+        </div>
+        <div>
+          <label>Favorite Books:</label>
+          <textarea
+            value={favoriteBooks}
+            onChange={(e) => setFavoriteBooks(e.target.value)}
+            placeholder="Enter your favorite books (comma separated)"
+          />
+        </div>
+        <button type="submit">Save</button>
+      </form>
+  
       <h3>Friends</h3>
-      <AddFriendForm /> {/* Move the AddFriendForm here */}
+      <AddFriendForm />
       <ul>
         {Array.isArray(friends) && friends.length > 0 ? (
           friends.map((friend) => <li key={friend.id}>{friend.username}</li>)
@@ -90,7 +88,12 @@ const Profile = () => {
           <p>No friends added yet.</p>
         )}
       </ul>
-
+  
+      <h3>Pending Friend Requests</h3>
+      <ul>
+        {/* Pending requests would go here */}
+      </ul>
+  
       <h3>Book Clubs Joined</h3>
       <ul>
         {Array.isArray(bookClubs) && bookClubs.length > 0 ? (
@@ -99,10 +102,9 @@ const Profile = () => {
           <p>No book clubs joined yet.</p>
         )}
       </ul>
-
       <button className="logout-button" onClick={handleLogout}>Logout</button>
     </div>
-  );
+  );  
 };
 
 export default Profile;
