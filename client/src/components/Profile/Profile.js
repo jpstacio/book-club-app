@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../../api/axiosInstance';
 import AddFriendForm from '../AddFriendForm'; // Ensure this path is correct
+import './Profile.css'; // Import your CSS file for styling
 
 const Profile = () => {
   const [userData, setUserData] = useState({});
@@ -55,31 +56,33 @@ const Profile = () => {
   if (error) return <p style={{ color: 'red' }}>{error}</p>;
 
   return (
-    <div>
+    <div className="profile-container">
       <h2>Profile</h2>
-      <p>Username: {userData.username}</p>
-      <form onSubmit={handleSave}>
-        <div>
-          <label>Favorite Books:</label>
-          <textarea
-            value={favoriteBooks}
-            onChange={(e) => setFavoriteBooks(e.target.value)}
-            placeholder="Enter your favorite books (comma separated)"
-          />
-        </div>
-        <div>
-          <label>Biography:</label>
-          <textarea
-            value={biography}
-            onChange={(e) => setBiography(e.target.value)}
-            placeholder="Tell us about yourself"
-          />
-        </div>
-        <button type="submit">Save</button>
-      </form>
+      <div className="user-info">
+        <p><strong>Username:</strong> {userData.username}</p>
+        <form onSubmit={handleSave} className="profile-form">
+          <div>
+            <label>Biography:</label>
+            <textarea
+              value={biography}
+              onChange={(e) => setBiography(e.target.value)}
+              placeholder="Tell us about yourself"
+            />
+          </div>
+          <div>
+            <label>Favorite Books:</label>
+            <textarea
+              value={favoriteBooks}
+              onChange={(e) => setFavoriteBooks(e.target.value)}
+              placeholder="Enter your favorite books (comma separated)"
+            />
+          </div>
+          <button type="submit">Save</button>
+        </form>
+      </div>
 
-      <AddFriendForm />
       <h3>Friends</h3>
+      <AddFriendForm /> {/* Move the AddFriendForm here */}
       <ul>
         {Array.isArray(friends) && friends.length > 0 ? (
           friends.map((friend) => <li key={friend.id}>{friend.username}</li>)
@@ -96,7 +99,8 @@ const Profile = () => {
           <p>No book clubs joined yet.</p>
         )}
       </ul>
-      <button onClick={handleLogout}>Logout</button>
+
+      <button className="logout-button" onClick={handleLogout}>Logout</button>
     </div>
   );
 };
